@@ -102,7 +102,7 @@ const LoginScreen = () => {
         navigation.navigate("HomeScreen");
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Login failed:", error.response.data.message);
       setError("Adresse email ou mot de passe incorrect.");
     }
   };

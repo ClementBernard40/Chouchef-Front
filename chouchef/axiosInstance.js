@@ -1,7 +1,7 @@
 import axios from "axios";
 // Créez une instance Axios avec une configuration de base
 const axiosInstance = axios.create({
-  baseURL: "http://192.168.1.12:3001",
+  baseURL: "http://10.120.135.87:3001",
   headers: {
     "Content-Type": "application/json",
   }, // URL de base de votre API

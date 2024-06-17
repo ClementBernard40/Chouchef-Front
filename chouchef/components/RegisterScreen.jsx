@@ -5,12 +5,13 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
+  SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axiosInstance from "../axiosInstance";
-import { styled } from "nativewind";
 const mascot = require("../assets/images/mascot.png");
 
 const RegisterScreen = () => {
@@ -56,84 +57,89 @@ const RegisterScreen = () => {
           setError("l'adresse email est deja utilisé");
         } else {
           console.log(error.response.status);
-          setError("Adresse email ou mot de passe incorrect.");
+          setError(
+            "Adresse email ou mot de passe incorrect.",
+            error.response.data.message
+          );
         }
       });
   };
 
-  // Styled components
-  const StyledView = styled(View);
-  const StyledImage = styled(Image);
-  const StyledTextInput = styled(TextInput);
-  const StyledTouchableOpacity = styled(TouchableOpacity);
-  const StyledText = styled(Text);
-
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <StyledView className="flex-1 justify-center items-center bg-white">
-        <StyledTextInput
-          className="text-3xl text-center text-deep-green font-arco w-[70vw] mb-10"
-          placeholder="Inscription"
-          placeholderTextColor="#103B00"
-          editable={false}
-        />
+    <SafeAreaView style={{ flex: 1 }} className="bg-white">
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="always"
+        >
+          <View className="flex-1 justify-center items-center">
+            <TextInput
+              className="text-3xl text-center text-deep-green font-arco w-[70vw] mb-10"
+              placeholder="Inscription"
+              placeholderTextColor="#103B00"
+              editable={false}
+            />
 
-        <StyledView className="border border-deep-green rounded-full pt-1 pb-3 mb-4 w-80">
-          <StyledTextInput
-            className="text-lg text-center text-deep-green font-rubik"
-            placeholder="Nom"
-            placeholderTextColor="#ADC319"
-            value={name}
-            onChangeText={setName}
-          />
-        </StyledView>
-        <StyledView className="border border-deep-green rounded-full pt-1 pb-3 mb-4 w-80">
-          <StyledTextInput
-            className="text-lg text-center text-deep-green font-rubik"
-            placeholder="Adresse email"
-            keyboardType="email-address"
-            placeholderTextColor="#ADC319"
-            value={email}
-            onChangeText={setEmail}
-          />
-        </StyledView>
-        <StyledView className="border border-deep-green rounded-full mb-5 w-80">
-          <StyledTextInput
-            className="text-lg text-center text-deep-green font-rubik pt-1 pb-3"
-            placeholder="Mot de passe"
-            placeholderTextColor="#ADC319"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-          />
-        </StyledView>
-        <StyledView className="border border-deep-green rounded-full mb-5 w-80">
-          <StyledTextInput
-            className="text-lg text-center text-deep-green font-rubik pt-1 pb-3"
-            placeholder="Confirmez le mot de passe"
-            placeholderTextColor="#ADC319"
-            secureTextEntry
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-          />
-        </StyledView>
-        {error ? (
-          <StyledText className="text-red-500 mb-5">{error}</StyledText>
-        ) : null}
-        <StyledView className="btn bg-deep-green rounded-[30px] py-3 px-[15%] mb-8">
-          <StyledTouchableOpacity onPress={handleRegister}>
-            <StyledText className="text-white text-lg font-rubikBold">
-              Valider
-            </StyledText>
-          </StyledTouchableOpacity>
-        </StyledView>
-        <StyledImage
-          source={mascot}
-          className="w-[50vw] h-[50vw]"
-          style={{ resizeMode: "contain" }}
-        />
-      </StyledView>
-    </TouchableWithoutFeedback>
+            <View className="border border-deep-green rounded-full pt-1 pb-3 mb-4 w-80">
+              <TextInput
+                className="text-lg text-center text-deep-green font-rubik"
+                placeholder="Nom"
+                placeholderTextColor="#ADC319"
+                value={name}
+                onChangeText={setName}
+                onFocus={() => setError("")}
+              />
+            </View>
+            <View className="border border-deep-green rounded-full pt-1 pb-3 mb-4 w-80">
+              <TextInput
+                className="text-lg text-center text-deep-green font-rubik"
+                placeholder="Adresse email"
+                keyboardType="email-address"
+                placeholderTextColor="#ADC319"
+                value={email}
+                onChangeText={setEmail}
+                onFocus={() => setError("")}
+              />
+            </View>
+            <View className="border border-deep-green rounded-full mb-5 w-80">
+              <TextInput
+                className="text-lg text-center text-deep-green font-rubik pt-1 pb-3"
+                placeholder="Mot de passe"
+                placeholderTextColor="#ADC319"
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
+                onFocus={() => setError("")}
+              />
+            </View>
+            <View className="border border-deep-green rounded-full mb-5 w-80">
+              <TextInput
+                className="text-lg text-center text-deep-green font-rubik pt-1 pb-3"
+                placeholder="Confirmez le mot de passe"
+                placeholderTextColor="#ADC319"
+                secureTextEntry
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                onFocus={() => setError("")}
+              />
+            </View>
+            {error ? <Text className="text-red-500 mb-5">{error}</Text> : null}
+            <View className="btn bg-deep-green rounded-[30px] py-3 px-[15%] mb-8">
+              <TouchableOpacity onPress={handleRegister}>
+                <Text className="text-white text-lg font-rubikBold">
+                  Valider
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <Image
+              source={mascot}
+              className="w-[50vw] h-[50vw]"
+              style={{ resizeMode: "contain" }}
+            />
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 };
 
